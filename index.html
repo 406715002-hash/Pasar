@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JOM KE PASAR! 🛒 เกมทบทวนภาษามลายู</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --mint:#DDF1DC;
+    --mint-deep:#BFE3C0;
+    --leaf:#2F8A4F;
+    --leaf-dark:#1F4A33;
+    --cream:#FFF6E3;
+    --paper:#FFFDF6;
+    --orange:#F28C28;
+    --orange-dark:#B85A05;
+    --brick:#C0472F;
+    --brick-soft:#FCE3DC;
+    --ok-soft:#D4F0D8;
+    --ink:#24372C;
+    --radius:22px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:'Noto Sans Thai','Sarabun','Tahoma',system-ui,sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(circle at 12% 8%, var(--mint-deep) 0 90px, transparent 91px),
+      radial-gradient(circle at 92% 30%, var(--mint-deep) 0 70px, transparent 71px),
+      var(--mint);
+    min-height:100vh;
+    line-height:1.6;
+    font-size:18px;
+  }
+  h1,h2,h3,.display{font-family:'Mali','Noto Sans Thai',cursive,sans-serif}
+  .my{font-weight:700;color:var(--orange-dark);white-space:nowrap}
+
+  /* ---------- Awning (the memorable element) ---------- */
+  .awning{
+    height:78px;
+    background:repeating-linear-gradient(90deg,var(--orange) 0 44px,var(--cream) 44px 88px);
+    position:relative;
+    box-shadow:0 4px 0 rgba(31,74,51,.12);
+  }
+  .awning::after{
+    content:"";
+    position:absolute;left:0;right:0;bottom:-22px;height:22px;
+    background:
+      radial-gradient(circle at 22px 0, var(--orange) 21px, transparent 22px) 0 0/88px 22px repeat-x,
+      radial-gradient(circle at 66px 0, var(--cream) 21px, transparent 22px) 0 0/88px 22px repeat-x;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:44px 16px 40px}
+
+  /* ---------- Header ---------- */
+  .brand{text-align:center;margin-bottom:20px}
+  .brand h1{
+    font-size:clamp(2rem,7vw,3.2rem);
+    line-height:1.15;
+    color:var(--leaf-dark);
+    letter-spacing:.5px;
+  }
+  .brand h1 span{color:var(--orange-dark)}
+  .brand p{font-weight:600;color:var(--leaf);font-size:1.1rem}
+
+  .card{
+    background:var(--paper);
+    border:3px solid var(--leaf-dark);
+    border-radius:var(--radius);
+    box-shadow:0 7px 0 var(--leaf-dark);
+    padding:24px 20px;
+  }
+  @media(min-width:600px){.card{padding:30px 34px}}
+
+  .hidden{display:none !important}
+
+  /* ---------- Shelf of goods ---------- */
+  .shelf{
+    display:flex;justify-content:center;gap:clamp(6px,2vw,16px);
+    font-size:clamp(1.8rem,7vw,2.8rem);
+    margin:6px 0 14px;
+  }
+  .shelf span{display:inline-block}
+  .shelf span:nth-child(odd){transform:rotate(-6deg)}
+  .shelf span:nth-child(even){transform:rotate(5deg)}
+  .crate{
+    height:14px;border-radius:0 0 10px 10px;
+    background:repeating-linear-gradient(90deg,#D9A25B 0 26px,#C48B44 26px 30px);
+    margin:0 auto 18px;max-width:420px;
+  }
+
+  /* ---------- Start screen ---------- */
+  .intro h2{font-size:1.5rem;color:var(--leaf-dark);text-align:center;margin-bottom:8px}
+  .intro p{text-align:center;margin-bottom:6px}
+  .facts{
+    display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:16px 0 22px;
+  }
+  .fact{
+    background:var(--cream);border:2px dashed var(--orange);
+    border-radius:14px;padding:6px 14px;font-weight:600;font-size:.95rem;
+  }
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    font-family:inherit;font-weight:700;font-size:1.15rem;
+    border:3px solid var(--leaf-dark);border-radius:18px;
+    min-height:58px;padding:12px 26px;cursor:pointer;
+    background:var(--orange);color:#fff;
+    text-shadow:0 1px 0 rgba(0,0,0,.2);
+    box-shadow:0 5px 0 var(--leaf-dark);
+    transition:transform .08s ease, box-shadow .08s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .btn:hover{transform:translateY(-1px)}
+  .btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--leaf-dark)}
+  .btn.green{background:var(--leaf)}
+  .btn.block{display:block;width:100%}
+  .btn:focus-visible,.opt:focus-visible{outline:4px solid #1B6FD1;outline-offset:3px}
+  .center{text-align:center}
+
+  /* ---------- Top bar : progress + score tag ---------- */
+  .topbar{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+  .progress-box{flex:1}
+  .progress-label{font-weight:600;font-size:.95rem;margin-bottom:4px;color:var(--leaf-dark)}
+  .bar{
+    height:18px;border-radius:12px;background:var(--mint);
+    border:2px solid var(--leaf-dark);overflow:hidden;
+  }
+  .fill{height:100%;width:0;background:linear-gradient(90deg,var(--leaf),#5CBF7A);transition:width .4s ease}
+  .tag{
+    position:relative;background:var(--cream);
+    border:3px solid var(--orange-dark);
+    border-radius:8px 14px 14px 8px;
+    padding:4px 14px 4px 26px;text-align:center;min-width:92px;
+    font-family:'Mali',sans-serif;
+  }
+  .tag::before{
+    content:"";position:absolute;left:8px;top:50%;width:9px;height:9px;margin-top:-5px;
+    border-radius:50%;background:var(--paper);border:2px solid var(--orange-dark);
+  }
+  .tag small{display:block;font-size:.72rem;font-weight:600;color:var(--orange-dark);line-height:1.1}
+  .tag b{font-size:1.35rem;color:var(--leaf-dark);line-height:1.2}
+
+  /* ---------- Question ---------- */
+  .qtype{
+    display:inline-block;background:var(--mint);border-radius:999px;
+    padding:2px 14px;font-size:.88rem;font-weight:600;color:var(--leaf-dark);margin-bottom:10px;
+  }
+  .question{font-size:clamp(1.25rem,4.5vw,1.6rem);font-weight:700;line-height:1.5;margin-bottom:18px;color:var(--leaf-dark)}
+  .question .my{font-size:1.08em}
+
+  .options{display:grid;gap:12px}
+  @media(min-width:640px){.options{grid-template-columns:1fr 1fr}}
+  .opt{
+    font-family:inherit;text-align:left;font-size:1.1rem;font-weight:600;
+    display:flex;align-items:center;gap:12px;
+    min-height:64px;padding:12px 16px;cursor:pointer;
+    border:3px solid var(--leaf-dark);border-radius:18px;
+    background:var(--cream);color:var(--ink);
+    box-shadow:0 4px 0 var(--leaf-dark);
+    transition:transform .08s ease, background .15s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .opt:hover:not(:disabled){background:#FFEBC4;transform:translateY(-1px)}
+  .opt:active:not(:disabled){transform:translateY(3px);box-shadow:0 1px 0 var(--leaf-dark)}
+  .opt .letter{
+    flex:none;width:34px;height:34px;border-radius:50%;
+    background:var(--orange);color:#fff;font-weight:700;
+    display:grid;place-items:center;font-size:1rem;
+  }
+  .opt .txt{flex:1}
+  .opt .txt .th{display:block;font-size:.88rem;font-weight:500;color:#4A5F52}
+  .opt:disabled{cursor:default}
+  .opt.correct{background:var(--ok-soft);border-color:var(--leaf)}
+  .opt.correct .letter{background:var(--leaf)}
+  .opt.wrong{background:var(--brick-soft);border-color:var(--brick)}
+  .opt.wrong .letter{background:var(--brick)}
+  .opt.dim{opacity:.55}
+  .opt .mark{font-size:1.4rem;flex:none}
+
+  /* ---------- Feedback ---------- */
+  .feedback{
+    margin-top:20px;border-radius:18px;padding:16px 18px;
+    border:3px solid var(--leaf);background:var(--ok-soft);
+    animation:pop .25s ease;
+  }
+  .feedback.bad{border-color:var(--brick);background:var(--brick-soft)}
+  .feedback h3{font-size:1.3rem;margin-bottom:4px}
+  .feedback.ok h3{color:#17663A}
+  .feedback.bad h3{color:#9C2F1B}
+  .feedback p{margin-bottom:4px}
+  .feedback .translate{font-weight:600}
+  .next-row{margin-top:16px}
+  @keyframes pop{from{transform:scale(.97);opacity:0}to{transform:none;opacity:1}}
+
+  /* ---------- Result ---------- */
+  .result{text-align:center}
+  .result .grade{
+    font-family:'Mali',sans-serif;font-size:clamp(1.7rem,6vw,2.4rem);font-weight:700;
+    color:var(--orange-dark);line-height:1.25;margin:4px 0 2px;
+  }
+  .result .grade-th{font-size:1.2rem;font-weight:700;color:var(--leaf-dark);margin-bottom:14px}
+  .bigscore{
+    display:inline-block;margin:6px 0 14px;
+    background:var(--cream);border:3px solid var(--orange-dark);border-radius:20px;
+    padding:8px 34px;font-family:'Mali',sans-serif;
+  }
+  .bigscore b{font-size:3.2rem;color:var(--leaf-dark);line-height:1.1}
+  .bigscore span{font-size:1.4rem;font-weight:700;color:var(--orange-dark)}
+  .cheer{max-width:480px;margin:0 auto 20px}
+
+  footer{text-align:center;font-size:.9rem;color:#4A5F52;margin-top:22px}
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none !important;transition:none !important}
+  }
+</style>
+</head>
+<body>
+
+<div class="awning" aria-hidden="true"></div>
+
+<main class="wrap">
+  <header class="brand">
+    <h1>JOM KE <span>PASAR!</span> 🛒</h1>
+    <p>(ไปตลาดกันเถอะ)</p>
+  </header>
+
+  <div class="shelf" aria-hidden="true">
+    <span>🥬</span><span>🍎</span><span>🧺</span><span>🐟</span><span>🐔</span><span>🍍</span><span>🥕</span>
+  </div>
+  <div class="crate" aria-hidden="true"></div>
+
+  <!-- START -->
+  <section id="screen-start" class="card intro">
+    <h2>ทบทวนภาษามลายูในตลาด</h2>
+    <p>สำหรับนักเรียนชั้นมัธยมศึกษาปีที่ 4 รายวิชาภาษามลายู</p>
+    <p>หัวข้อ: บทสนทนาสั้น ๆ การซื้อขายในตลาด</p>
+    <div class="facts">
+      <span class="fact">📝 15 ข้อ</span>
+      <span class="fact">✅ ปรนัย 4 ตัวเลือก</span>
+      <span class="fact">⭐ ข้อละ 1 คะแนน</span>
+    </div>
+    <button class="btn block" id="btn-start" type="button">เริ่มเล่น! 🛒</button>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="screen-quiz" class="card hidden" aria-live="polite">
+    <div class="topbar">
+      <div class="progress-box">
+        <div class="progress-label" id="progress-text">ข้อ 1 จาก 15</div>
+        <div class="bar" role="progressbar" aria-label="ความคืบหน้า" aria-valuemin="0" aria-valuemax="15" aria-valuenow="0" id="bar">
+          <div class="fill" id="fill"></div>
+        </div>
+      </div>
+      <div class="tag">
+        <small>คะแนน</small>
+        <b id="score-now">0</b>
+      </div>
+    </div>
+
+    <span class="qtype" id="qtype"></span>
+    <div class="question" id="question"></div>
+    <div class="options" id="options"></div>
+
+    <div id="feedback" class="feedback hidden" role="status"></div>
+    <div class="next-row hidden" id="next-row">
+      <button class="btn green block" id="btn-next" type="button">ข้อถัดไป</button>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section id="screen-result" class="card result hidden">
+    <h2 class="display" style="color:var(--leaf-dark)">จบเกมแล้ว! 🎉</h2>
+    <div class="bigscore"><b id="final-score">0</b><span> / 15</span></div>
+    <div class="grade" id="grade-my"></div>
+    <div class="grade-th" id="grade-th"></div>
+    <p class="cheer" id="cheer"></p>
+    <button class="btn block" id="btn-restart" type="button">เริ่มเกมใหม่ 🔄</button>
+  </section>
+
+  <footer>JOM KE PASAR! · เกมทบทวนภาษามลายู</footer>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ====================================================
+     คลังคำถาม 15 ข้อ
+     options: ตัวเลือกแรกคือคำตอบที่ถูกต้องเสมอ
+              (ระบบจะสลับตำแหน่งตัวเลือกให้อัตโนมัติทุกครั้งที่แสดง)
+     my = ข้อความภาษามลายู, th = คำแปลภาษาไทย (ถ้ามี)
+     ==================================================== */
+  var QUESTIONS = [
+    {
+      type: "ความหมายของคำ",
+      q: 'คำว่า <span class="my">Pasar</span> มีความหมายว่าอะไร?',
+      options: [{th:"ตลาด"},{th:"โรงเรียน"},{th:"บ้าน"},{th:"โรงพยาบาล"}],
+      explain: '<span class="my">Pasar</span> = ตลาด สถานที่ที่ผู้คนไปซื้อและขายสินค้า',
+      translate: 'Pasar = ตลาด'
+    },
+    {
+      type: "ความหมายของคำ",
+      q: 'คำว่า <span class="my">Penjual</span> หมายถึงใคร?',
+      options: [{th:"ผู้ขาย"},{th:"ผู้ซื้อ"},{th:"ครู"},{th:"นักเรียน"}],
+      explain: '<span class="my">Penjual</span> คือคนที่ขายสินค้าในตลาด',
+      translate: 'Penjual = ผู้ขาย'
+    },
+    {
+      type: "ความหมายของคำ",
+      q: 'คำว่า <span class="my">Pembeli</span> หมายถึงใคร?',
+      options: [{th:"ผู้ซื้อ"},{th:"ผู้ขาย"},{th:"แม่ค้าขายปลา"},{th:"เจ้าของตลาด"}],
+      explain: '<span class="my">Pembeli</span> คือคนที่มาซื้อสินค้าในตลาด',
+      translate: 'Pembeli = ผู้ซื้อ'
+    },
+    {
+      type: "ความหมายของคำ",
+      q: 'คำว่า <span class="my">Sayur</span> และ <span class="my">Buah-buahan</span> มีความหมายตามลำดับว่าอย่างไร?',
+      options: [{th:"ผัก และ ผลไม้"},{th:"ผลไม้ และ ผัก"},{th:"ปลา และ ไก่"},{th:"ไก่ และ ปลา"}],
+      explain: '<span class="my">Sayur</span> = ผัก และ <span class="my">Buah-buahan</span> = ผลไม้',
+      translate: 'Sayur = ผัก, Buah-buahan = ผลไม้'
+    },
+    {
+      type: "ความหมายของคำ",
+      q: 'คำว่า <span class="my">Ikan</span> และ <span class="my">Ayam</span> มีความหมายตามลำดับว่าอย่างไร?',
+      options: [{th:"ปลา และ ไก่"},{th:"ไก่ และ ปลา"},{th:"ผัก และ ผลไม้"},{th:"ผลไม้ และ ผัก"}],
+      explain: '<span class="my">Ikan</span> = ปลา และ <span class="my">Ayam</span> = ไก่',
+      translate: 'Ikan = ปลา, Ayam = ไก่'
+    },
+    {
+      type: "ความหมายของคำ",
+      q: 'คำว่า <span class="my">Mahal</span> มีความหมายว่าอะไร?',
+      options: [{th:"แพง"},{th:"ถูก"},{th:"ตลาด"},{th:"ผู้ขาย"}],
+      explain: '<span class="my">Mahal</span> ใช้บอกว่าสินค้ามีราคาสูง',
+      translate: 'Mahal = แพง'
+    },
+    {
+      type: "ความหมายของคำ",
+      q: 'คำว่า <span class="my">Murah</span> มีความหมายว่าอะไร?',
+      options: [{th:"ถูก"},{th:"แพง"},{th:"ผัก"},{th:"ผู้ซื้อ"}],
+      explain: '<span class="my">Murah</span> ใช้บอกว่าสินค้ามีราคาไม่สูง',
+      translate: 'Murah = ถูก'
+    },
+    {
+      type: "ความหมายของประโยค",
+      q: 'ประโยค <span class="my">Berapa harga?</span> ใช้ถามเกี่ยวกับอะไร?',
+      options: [{th:"ราคา"},{th:"น้ำหนัก"},{th:"ชนิดของสินค้า"},{th:"ชื่อตลาด"}],
+      explain: 'ใช้ถามราคาสินค้า เมื่อต้องการรู้ว่าสินค้านั้นราคาเท่าไร',
+      translate: 'Berapa harga? = ราคาเท่าไหร่?'
+    },
+    {
+      type: "ความหมายของประโยค",
+      q: 'ประโยค <span class="my">Berapa kilo?</span> มีความหมายตรงกับข้อใด?',
+      options: [{th:"กี่กิโลกรัม?"},{th:"ราคาเท่าไหร่?"},{th:"ต้องการซื้ออะไร?"},{th:"หนึ่งกิโลกรัม"}],
+      explain: 'ใช้ถามปริมาณหรือน้ำหนักของสินค้าที่ต้องการ',
+      translate: 'Berapa kilo? = กี่กิโลกรัม?'
+    },
+    {
+      type: "ความหมายของประโยค",
+      q: 'ประโยค <span class="my">Nak beli apa?</span> เป็นประโยคที่ผู้ใดใช้ถาม?',
+      options: [{th:"ผู้ขาย ถามผู้ซื้อ"},{th:"ผู้ซื้อ ถามผู้ขาย"},{th:"ผู้ซื้อ ถามเพื่อนที่มาด้วย"},{th:"ผู้ขาย ถามผู้ขายคนอื่น"}],
+      explain: 'ผู้ขายใช้ถามผู้ซื้อว่าต้องการซื้ออะไร',
+      translate: 'Nak beli apa? = ต้องการซื้ออะไร?'
+    },
+    {
+      type: "การใช้ประโยค",
+      q: 'หากต้องการบอกว่า "ฉันต้องการซื้อผัก" ควรพูดว่าอย่างไร?',
+      options: [{my:"Saya nak beli sayur."},{my:"Saya nak beli ikan."},{my:"Saya nak beli ayam."},{my:"Saya nak beli buah-buahan."}],
+      explain: 'Saya nak beli + สินค้า เมื่อสินค้าคือผัก ใช้คำว่า <span class="my">sayur</span>',
+      translate: 'Saya nak beli sayur. = ฉันต้องการซื้อผัก'
+    },
+    {
+      type: "การใช้ประโยค",
+      q: 'หากต้องการถามว่า "กี่กิโลกรัม" ต้องใช้ประโยคใด?',
+      options: [{my:"Berapa kilo?"},{my:"Berapa harga?"},{my:"Nak beli apa?"},{my:"Satu kilo."}],
+      explain: '<span class="my">Berapa kilo?</span> ใช้ถามน้ำหนัก ส่วน <span class="my">Berapa harga?</span> ใช้ถามราคา',
+      translate: 'Berapa kilo? = กี่กิโลกรัม?'
+    },
+    {
+      type: "สถานการณ์สนทนา",
+      q: 'ผู้ซื้อพูดว่า <span class="my">Saya nak beli sayur.</span> ผู้ขายควรถามต่อด้วยประโยคใดเพื่อรู้ปริมาณที่ต้องการ?',
+      options: [{my:"Berapa kilo?"},{my:"Saya beli."},{my:"Mahal."},{my:"Ayam."}],
+      explain: 'เมื่อรู้แล้วว่าผู้ซื้อต้องการผัก ผู้ขายถามต่อว่า <span class="my">Berapa kilo?</span> (กี่กิโลกรัม?)',
+      translate: 'Saya nak beli sayur. = ฉันต้องการซื้อผัก / Berapa kilo? = กี่กิโลกรัม?'
+    },
+    {
+      type: "สถานการณ์สนทนา",
+      q: 'ผู้ขายถามว่า <span class="my">Berapa kilo?</span> ถ้าผู้ซื้อต้องการ 1 กิโลกรัม ควรตอบว่าอย่างไร?',
+      options: [{my:"Satu kilo."},{my:"Berapa harga?"},{my:"Murah."},{my:"Pasar."}],
+      explain: '<span class="my">Satu kilo.</span> แปลว่า หนึ่งกิโลกรัม ใช้ตอบคำถามเรื่องปริมาณ',
+      translate: 'Satu kilo. = หนึ่งกิโลกรัม'
+    },
+    {
+      type: "สถานการณ์สนทนา",
+      q: 'ผู้ซื้อตกลงซื้อสินค้าแล้ว และต้องการบอกว่า "ฉันซื้อ" ควรพูดว่าอย่างไร?',
+      options: [{my:"Saya beli."},{my:"Nak beli apa?"},{my:"Berapa kilo?"},{my:"Satu kilo."}],
+      explain: '<span class="my">Saya beli.</span> ใช้บอกว่าตัดสินใจซื้อสินค้านั้น',
+      translate: 'Saya beli. = ฉันซื้อ'
+    }
+  ];
+
+  var TOTAL = QUESTIONS.length; // 15
+
+  var LEVELS = [
+    { min: 13, my: "Tahniah! Cemerlang!", th: "ยอดเยี่ยมมาก",
+      cheer: "เก่งมาก! คุณจำคำศัพท์และประโยคในตลาดได้แม่นยำ พร้อมไปตลาดมลายูแล้ว 🎉" },
+    { min: 10, my: "Bagus!", th: "ดีมาก",
+      cheer: "ทำได้ดีมาก! ทบทวนอีกเล็กน้อยก็จะเต็มคะแนนได้แน่นอน 🌟" },
+    { min: 7, my: "Cuba lagi!", th: "พยายามอีกครั้ง",
+      cheer: "ใกล้แล้ว! ลองอ่านคำศัพท์อีกรอบแล้วเล่นใหม่ รอบหน้าต้องได้คะแนนดีขึ้น 💪" },
+    { min: 0, my: "Terus belajar!", th: "ฝึกฝนต่อไป",
+      cheer: "ไม่เป็นไร! ทุกคนเริ่มจากจุดนี้ ฝึกต่อไปเรื่อย ๆ แล้วจะเก่งขึ้นแน่นอน 🌱" }
+  ];
+
+  var LETTERS = ["ก", "ข", "ค", "ง"];
+
+  var $ = function (id) { return document.getElementById(id); };
+  var screens = { start: $("screen-start"), quiz: $("screen-quiz"), result: $("screen-result") };
+
+  var index = 0, score = 0, answered = false, current = null;
+
+  function show(name) {
+    for (var k in screens) screens[k].classList.toggle("hidden", k !== name);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function startGame() {
+    index = 0; score = 0;
+    $("score-now").textContent = "0";
+    show("quiz");
+    renderQuestion();
+  }
+
+  function updateProgress() {
+    // แถบแสดงจำนวนข้อที่ตอบแล้ว
+    var done = answered ? index + 1 : index;
+    $("fill").style.width = (done / TOTAL * 100) + "%";
+    $("bar").setAttribute("aria-valuenow", String(done));
+    $("progress-text").textContent = "ข้อ " + (index + 1) + " จาก " + TOTAL;
+  }
+
+  function renderQuestion() {
+    answered = false;
+    var item = QUESTIONS[index];
+    // เก็บตัวเลือกพร้อมระบุว่าตัวใดถูก (ตัวแรกใน options คือคำตอบที่ถูก)
+    current = {
+      item: item,
+      opts: shuffle(item.options.map(function (o, i) {
+        return { my: o.my || "", th: o.th || "", correct: i === 0 };
+      }))
+    };
+
+    $("qtype").textContent = item.type;
+    $("question").innerHTML = item.q;
+    $("feedback").classList.add("hidden");
+    $("next-row").classList.add("hidden");
+    $("btn-next").textContent = (index === TOTAL - 1) ? "ดูผลคะแนน 🏆" : "ข้อถัดไป";
+    updateProgress();
+
+    var box = $("options");
+    box.innerHTML = "";
+    current.opts.forEach(function (o, i) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "opt";
+      b.setAttribute("data-i", String(i));
+
+      var letter = document.createElement("span");
+      letter.className = "letter";
+      letter.textContent = LETTERS[i];
+
+      var txt = document.createElement("span");
+      txt.className = "txt";
+      if (o.my) {
+        var m = document.createElement("span");
+        m.className = "my";
+        m.style.whiteSpace = "normal";
+        m.textContent = o.my;
+        txt.appendChild(m);
+      } else {
+        txt.textContent = o.th;
+      }
+
+      var mark = document.createElement("span");
+      mark.className = "mark";
+      mark.setAttribute("aria-hidden", "true");
+
+      b.appendChild(letter);
+      b.appendChild(txt);
+      b.appendChild(mark);
+      b.addEventListener("click", function () { choose(i); });
+      box.appendChild(b);
+    });
+  }
+
+  function choose(i) {
+    if (answered) return;
+    answered = true;
+
+    var picked = current.opts[i];
+    var isRight = picked.correct;
+    if (isRight) {
+      score += 1;
+      $("score-now").textContent = String(score);
+    }
+
+    var btns = $("options").querySelectorAll(".opt");
+    btns.forEach(function (b, k) {
+      b.disabled = true;
+      var o = current.opts[k];
+      var mark = b.querySelector(".mark");
+      if (o.correct) {
+        b.classList.add("correct");
+        mark.textContent = "✅";
+      } else if (k === i) {
+        b.classList.add("wrong");
+        mark.textContent = "❌";
+      } else {
+        b.classList.add("dim");
+      }
+    });
+
+    var correctOpt = current.opts.filter(function (o) { return o.correct; })[0];
+    var correctText = correctOpt.my || correctOpt.th;
+
+    var fb = $("feedback");
+    fb.className = "feedback " + (isRight ? "ok" : "bad");
+    fb.innerHTML =
+      "<h3>" + (isRight ? "Betul! ถูกต้อง 🎉" : "Belum tepat! ยังไม่ถูกต้อง 🤔") + "</h3>" +
+      (isRight ? "" : "<p>คำตอบที่ถูกคือ: <strong></strong></p>") +
+      "<p>" + current.item.explain + "</p>" +
+      '<p class="translate">คำแปล: ' + current.item.translate + "</p>";
+    if (!isRight) fb.querySelector("strong").textContent = correctText;
+
+    $("next-row").classList.remove("hidden");
+    updateProgress();
+
+    // เลื่อนให้เห็นผลลัพธ์และปุ่มถัดไปบนจอมือถือ
+    setTimeout(function () {
+      $("btn-next").scrollIntoView({ behavior: "smooth", block: "nearest" });
+      $("btn-next").focus({ preventScroll: true });
+    }, 120);
+  }
+
+  function next() {
+    if (!answered) return;
+    if (index < TOTAL - 1) {
+      index += 1;
+      renderQuestion();
+      $("question").scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      showResult();
+    }
+  }
+
+  function showResult() {
+    var lv = LEVELS.filter(function (l) { return score >= l.min; })[0];
+    $("final-score").textContent = String(score);
+    $("grade-my").textContent = lv.my;
+    $("grade-th").textContent = lv.th;
+    $("cheer").textContent = lv.cheer;
+    show("result");
+  }
+
+  $("btn-start").addEventListener("click", startGame);
+  $("btn-next").addEventListener("click", next);
+  $("btn-restart").addEventListener("click", startGame);
+
+  // ทางลัดคีย์บอร์ด: กด 1-4 เพื่อเลือกคำตอบ
+  document.addEventListener("keydown", function (e) {
+    if (screens.quiz.classList.contains("hidden") || answered) return;
+    var n = parseInt(e.key, 10);
+    if (n >= 1 && n <= 4) choose(n - 1);
+  });
+})();
+</script>
+</body>
+</html>
